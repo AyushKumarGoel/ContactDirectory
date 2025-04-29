@@ -1,9 +1,9 @@
 package controller;
 
-import service.ContactService;
 import entity.Contact;
 import java.util.List;
 import java.util.Scanner;
+import service.ContactService;
 
 public class ContactController {
     private ContactService service;
@@ -33,6 +33,9 @@ public class ContactController {
             System.out.println("4. Search by Phone Number");
             System.out.println("5. List All Contacts");
             System.out.println("6. Delete Contact by Phone Number");
+            System.out.println("7. Search by Phone Number Substring");
+            System.out.println("8. Edit Existing Contact");
+
             System.out.println("0. Exit");
             System.out.print("Enter your choice: ");
 
@@ -58,6 +61,13 @@ public class ContactController {
                 case 6:
                     deleteContact();
                     break;
+                case 7:
+                    searchByPhoneSubstring();
+                    break;
+                case 8:
+                    editContact();
+                    break;
+                
                 case 0:
                     System.out.println("Exiting... Thank you!");
                     break;
@@ -113,7 +123,31 @@ public class ContactController {
             System.out.println("Contact not found!");
         }
     }
-
+    private void searchByPhoneSubstring() {
+        System.out.print("Enter Substring of Phone Number: ");
+        String partial = scanner.nextLine();
+        List<Contact> results = service.searchByPhoneSubstring(partial);
+        displayResults(results);
+    }
+    
+    private void editContact() {
+        System.out.print("Enter Phone Number of the Contact to Edit: ");
+        String oldPhone = scanner.nextLine();
+    
+        System.out.print("Enter New Name (Leave empty to keep unchanged): ");
+        String newName = scanner.nextLine();
+    
+        System.out.print("Enter New Phone Number (Leave empty to keep unchanged): ");
+        String newPhone = scanner.nextLine();
+    
+        boolean edited = service.editContact(oldPhone, newName, newPhone);
+        if (edited) {
+            System.out.println("Contact updated successfully!");
+        } else {
+            System.out.println("Contact not found!");
+        }
+    }
+    
     private void displayResults(List<Contact> contacts) {
         if (contacts.isEmpty()) {
             System.out.println("No contacts found.");

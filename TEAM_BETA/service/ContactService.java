@@ -1,9 +1,9 @@
 package service;
 
 import entity.Contact;
-import repository.ContactRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import repository.ContactRepository;
 
 public class ContactService {
     private ContactRepository repository;
@@ -42,4 +42,24 @@ public class ContactService {
     public boolean deleteContact(String phoneNumber) {
         return repository.deleteContact(phoneNumber);
     }
+    public List<Contact> searchByPhoneSubstring(String partial) {
+        return repository.getAllContacts().stream()
+                .filter(contact -> contact.getPhoneNumber().contains(partial))
+                .collect(Collectors.toList());
+    }
+    
+    public boolean editContact(String oldPhoneNumber, String newName, String newPhoneNumber) {
+        List<Contact> contacts = repository.getAllContacts();
+        for (Contact contact : contacts) {
+            if (contact.getPhoneNumber().equals(oldPhoneNumber)) {
+                contacts.remove(contact);
+                Contact updated = new Contact(newName.isEmpty() ? contact.getName() : newName,
+                                              newPhoneNumber.isEmpty() ? contact.getPhoneNumber() : newPhoneNumber);
+                contacts.add(updated);
+                return true;
+            }
+        }
+        return false;
+    }
+    
 }
