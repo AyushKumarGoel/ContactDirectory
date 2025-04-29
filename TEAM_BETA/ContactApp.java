@@ -4,9 +4,9 @@ import java.util.Scanner;
 
 class Contact {
     private String name;
-    private String phoneNumber;
+    private int phoneNumber;
 
-    public Contact(String name, String phoneNumber) {
+    public Contact(String name, int phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
     }
@@ -15,7 +15,7 @@ class Contact {
     public String getName() {
         return name;
     }
-    public String getPhoneNumber() {
+    public int getPhoneNumber() {
         return phoneNumber;
     }
 @Override
@@ -27,7 +27,7 @@ class Contact {
 class ContactManager {
     private List<Contact> contacts = new ArrayList<>();
 
-    public void addContact(String name, String phoneNumber) {
+    public void addContact(String name, int phoneNumber) {
         contacts.add(new Contact(name, phoneNumber));
         System.out.println("Contact added successfully!");
     }
@@ -58,10 +58,10 @@ class ContactManager {
         }
     }
 
-    public void searchByPhoneNumber(String phoneNumber) {
+    public void searchByPhoneNumber(int phoneNumber) {
         boolean found = false;
         for (Contact contact : contacts) {
-            if (contact.getPhoneNumber().equals(phoneNumber)) {
+            if (contact.getPhoneNumber()==(phoneNumber)) {
                 System.out.println(contact);
                 found = true;
             }
@@ -106,7 +106,7 @@ public class ContactApp {
                     System.out.print("Enter Name: ");
                     String name = scanner.nextLine();
                     System.out.print("Enter Phone Number: ");
-                    String phone = scanner.nextLine();
+                    int phone = scanner.nextInt();
                     manager.addContact(name, phone);
                     break;
                 case 2:
@@ -121,7 +121,7 @@ public class ContactApp {
                     break;
                 case 4:
                     System.out.print("Enter Phone Number to Search: ");
-                    String searchPhone = scanner.nextLine();
+                    int searchPhone = scanner.nextInt();
                     manager.searchByPhoneNumber(searchPhone);
                     break;
                 case 5:
